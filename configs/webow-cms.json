@@ -1,7 +1,7 @@
 {
     "name": "Webow CMS",
-    "description": "Original website configuration based on existing index.js",
-    "baseUrl": "https://your-webow-site.com",
+    "description": "Your Webow CMS website configuration",
+    "baseUrl": "https://dev-saas-cms2.webow.jp",
     "authentication": {
         "type": "basic",
         "credentials": {
@@ -10,7 +10,7 @@
         }
     },
     "navigation": {
-        "newArticleUrl": "https://your-webow-site.com/admin/articles/new",
+        "newArticleUrl": "https://dev-saas-cms2.webow.jp/admin/?controller=article&action=add",
         "fallbackSelectors": [
             {
                 "type": "xpath",
@@ -21,11 +21,6 @@
                 "type": "xpath",
                 "selector": "//a[contains(@href, '/articles/new')]",
                 "description": "Direct new article link"
-            },
-            {
-                "type": "xpath",
-                "selector": "//button[contains(text(), '記事作成')]",
-                "description": "Article creation button"
             }
         ],
         "waitForElement": "input[name='title'], #title"
@@ -53,39 +48,6 @@
                 ".editor textarea"
             ],
             "clearBefore": true
-        },
-        "startDate": {
-            "selector": "input[name='open_start_date']",
-            "selectorType": "css",
-            "fieldType": "date",
-            "dateFormat": "YYYY-MM-DD",
-            "fallbackSelectors": [
-                "#open_start_date"
-            ],
-            "clearBefore": true
-        },
-        "endDate": {
-            "selector": "input[name='open_end_date']",
-            "selectorType": "css",
-            "fieldType": "date",
-            "dateFormat": "YYYY-MM-DD",
-            "fallbackSelectors": [
-                "#open_end_date"
-            ],
-            "clearBefore": true
-        },
-        "status": {
-            "selector": "select[name='status']",
-            "selectorType": "css",
-            "fieldType": "select",
-            "valueMapping": {
-                "drafts": "draft",
-                "pending": "pending",
-                "public": "published"
-            },
-            "fallbackSelectors": [
-                "#status"
-            ]
         }
     },
     "actions": {
@@ -99,25 +61,6 @@
                 ".btn-save"
             ],
             "successIndicator": ".alert-success, .success-message"
-        },
-        "draft": {
-            "selector": "button[name='save_draft']",
-            "selectorType": "css",
-            "waitAfter": 2000,
-            "fallbackSelectors": [
-                "input[value='下書き保存']",
-                ".btn-draft"
-            ]
-        },
-        "publish": {
-            "selector": "button[name='publish']",
-            "selectorType": "css",
-            "waitAfter": 3000,
-            "confirmDialog": true,
-            "fallbackSelectors": [
-                "input[value='公開']",
-                ".btn-publish"
-            ]
         }
     },
     "settings": {

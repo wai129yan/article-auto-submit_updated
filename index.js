@@ -154,13 +154,13 @@ async function trySetDateFields(driver, article) {
 // UPDATED: More robust navigation function with multiple approaches
 async function navigateToNewArticleForm(driver) {
     console.log("🔄 Navigating to new article form...");
-    
+
     // Method 1: Direct URL navigation (most reliable)
     try {
         console.log("Trying direct URL navigation...");
         await driver.get('https://dev-saas-cms2.webow.jp/admin/?controller=article&action=add');
         await sleep(3000);
-        
+
         // Check if we're on the right page by looking for the title field
         try {
             await driver.findElement(By.name('title'));
@@ -221,7 +221,7 @@ async function navigateToNewArticleForm(driver) {
             console.log(`Trying alternative URL: ${url}`);
             await driver.get(url);
             await sleep(3000);
-            
+
             try {
                 await driver.findElement(By.name('title'));
                 console.log("✓ Successfully navigated via alternative URL");
@@ -314,7 +314,7 @@ async function main() {
         }
 
         // Load data from data.json
-        const jsonData = await fs.readFile('data.json', 'utf8');
+        const jsonData = await fs.readFile('data/data.json', 'utf8');
         const articles = JSON.parse(jsonData).rows;
 
         // Optional: Show debug info for first article only
@@ -364,7 +364,7 @@ async function main() {
                 await sleep(3000);
                 const saveButtonSelectorbyDrafts = By.xpath("//button[@type='button' and contains(@class, 'modalInput') and contains(@onclick, 'article_add')]");
                 let saveButtonFound = false;
-                
+
                 try {
                     const saveButton = await driver.findElement(saveButtonSelectorbyDrafts);
                     await saveButton.click();
@@ -376,13 +376,13 @@ async function main() {
                     if (normalizedStatus == "pending" || normalizedStatus == "public") {
                         console.log(`📋 Processing status: ${normalizedStatus}`);
                         await sleep(2000);
-                        
+
                         try {
                             const saveButtonSelectorbyPending = By.xpath("//*[@id='submit_form']/div[4]/div[2]/table/tbody/tr[3]/td[1]/button");
                             const pendingButton = await driver.findElement(saveButtonSelectorbyPending);
                             await pendingButton.click();
                             console.log("✓ Save pending button found and clicked");
-                            
+
                             if (normalizedStatus == "public") {
                                 await sleep(2000);
                                 try {
@@ -398,7 +398,7 @@ async function main() {
                             console.log("⚠ Pending button not found, article saved as draft");
                         }
                     }
-                    
+
                     saveButtonFound = true;
                 } catch (e) {
                     console.log("✗ Save button not found:", e.message);
@@ -414,12 +414,12 @@ async function main() {
             } catch (error) {
                 console.error(`❌ Error creating article "${article.title}": ${error.message}`);
                 await fs.appendFile('errors.log', `Error on article "${article.title}": ${error.message}\n`);
-                
+
                 // Continue to next article
                 continue;
             }
         }
-        
+
         console.log("\n🎉 All articles processed successfully!");
 
         // Keep browser open until user presses Enter
