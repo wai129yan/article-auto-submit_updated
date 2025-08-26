@@ -1,0 +1,348 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Website Configuration Schema",
+    "description": "Schema for defining website-specific configurations for article submission automation",
+    "type": "object",
+    "required": [
+        "name",
+        "baseUrl",
+        "authentication",
+        "navigation",
+        "formFields",
+        "actions"
+    ],
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "Human-readable name for the website"
+        },
+        "description": {
+            "type": "string",
+            "description": "Optional description of the website or CMS type"
+        },
+        "baseUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Base URL of the website"
+        },
+        "authentication": {
+            "type": "object",
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "basic",
+                        "form",
+                        "none"
+                    ],
+                    "description": "Type of authentication required"
+                },
+                "loginUrl": {
+                    "type": "string",
+                    "description": "URL for login page (required for form auth)"
+                },
+                "selectors": {
+                    "type": "object",
+                    "properties": {
+                        "username": {
+                            "type": "string",
+                            "description": "Selector for username field"
+                        },
+                        "password": {
+                            "type": "string",
+                            "description": "Selector for password field"
+                        },
+                        "submitButton": {
+                            "type": "string",
+                            "description": "Selector for login submit button"
+                        }
+                    }
+                },
+                "credentials": {
+                    "type": "object",
+                    "properties": {
+                        "usernameEnv": {
+                            "type": "string",
+                            "description": "Environment variable name for username"
+                        },
+                        "passwordEnv": {
+                            "type": "string",
+                            "description": "Environment variable name for password"
+                        }
+                    }
+                }
+            }
+        },
+        "navigation": {
+            "type": "object",
+            "required": [
+                "newArticleUrl"
+            ],
+            "properties": {
+                "newArticleUrl": {
+                    "type": "string",
+                    "description": "Direct URL to new article form"
+                },
+                "fallbackSelectors": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "xpath",
+                                    "css",
+                                    "id",
+                                    "name",
+                                    "linkText"
+                                ]
+                            },
+                            "selector": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "type",
+                            "selector"
+                        ]
+                    },
+                    "description": "Fallback selectors to navigate to new article form"
+                },
+                "waitForElement": {
+                    "type": "string",
+                    "description": "Element to wait for after navigation"
+                }
+            }
+        },
+        "formFields": {
+            "type": "object",
+            "required": [
+                "title",
+                "content"
+            ],
+            "properties": {
+                "title": {
+                    "$ref": "#/definitions/fieldConfig"
+                },
+                "content": {
+                    "$ref": "#/definitions/fieldConfig"
+                },
+                "startDate": {
+                    "$ref": "#/definitions/fieldConfig"
+                },
+                "endDate": {
+                    "$ref": "#/definitions/fieldConfig"
+                },
+                "status": {
+                    "$ref": "#/definitions/fieldConfig"
+                },
+                "category": {
+                    "$ref": "#/definitions/fieldConfig"
+                },
+                "tags": {
+                    "$ref": "#/definitions/fieldConfig"
+                },
+                "excerpt": {
+                    "$ref": "#/definitions/fieldConfig"
+                },
+                "featuredImage": {
+                    "$ref": "#/definitions/fieldConfig"
+                }
+            },
+            "additionalProperties": {
+                "$ref": "#/definitions/fieldConfig"
+            }
+        },
+        "actions": {
+            "type": "object",
+            "properties": {
+                "save": {
+                    "$ref": "#/definitions/actionConfig"
+                },
+                "publish": {
+                    "$ref": "#/definitions/actionConfig"
+                },
+                "draft": {
+                    "$ref": "#/definitions/actionConfig"
+                },
+                "preview": {
+                    "$ref": "#/definitions/actionConfig"
+                }
+            },
+            "additionalProperties": {
+                "$ref": "#/definitions/actionConfig"
+            }
+        },
+        "settings": {
+            "type": "object",
+            "properties": {
+                "waitTimeout": {
+                    "type": "integer",
+                    "default": 10000,
+                    "description": "Default wait timeout in milliseconds"
+                },
+                "retryAttempts": {
+                    "type": "integer",
+                    "default": 3,
+                    "description": "Number of retry attempts for failed operations"
+                },
+                "delayBetweenActions": {
+                    "type": "integer",
+                    "default": 1000,
+                    "description": "Delay between actions in milliseconds"
+                },
+                "headless": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Run browser in headless mode"
+                },
+                "screenshotOnError": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Take screenshot when errors occur"
+                }
+            }
+        },
+        "customScripts": {
+            "type": "object",
+            "properties": {
+                "beforeLogin": {
+                    "type": "string",
+                    "description": "JavaScript code to execute before login"
+                },
+                "afterLogin": {
+                    "type": "string",
+                    "description": "JavaScript code to execute after login"
+                },
+                "beforeSubmit": {
+                    "type": "string",
+                    "description": "JavaScript code to execute before form submission"
+                },
+                "afterSubmit": {
+                    "type": "string",
+                    "description": "JavaScript code to execute after form submission"
+                }
+            }
+        }
+    },
+    "definitions": {
+        "fieldConfig": {
+            "type": "object",
+            "required": [
+                "selector"
+            ],
+            "properties": {
+                "selector": {
+                    "type": "string",
+                    "description": "CSS selector or XPath for the field"
+                },
+                "selectorType": {
+                    "type": "string",
+                    "enum": [
+                        "css",
+                        "xpath",
+                        "id",
+                        "name",
+                        "className"
+                    ],
+                    "default": "css",
+                    "description": "Type of selector"
+                },
+                "fieldType": {
+                    "type": "string",
+                    "enum": [
+                        "text",
+                        "textarea",
+                        "select",
+                        "checkbox",
+                        "radio",
+                        "date",
+                        "file"
+                    ],
+                    "default": "text",
+                    "description": "Type of form field"
+                },
+                "required": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether this field is required"
+                },
+                "waitForElement": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Wait for element to be present before interacting"
+                },
+                "clearBefore": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Clear field before entering new value"
+                },
+                "fallbackSelectors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Alternative selectors to try if primary fails"
+                },
+                "valueMapping": {
+                    "type": "object",
+                    "description": "Map data values to form values (e.g., status mapping)"
+                },
+                "dateFormat": {
+                    "type": "string",
+                    "description": "Date format for date fields (moment.js format)"
+                }
+            }
+        },
+        "actionConfig": {
+            "type": "object",
+            "required": [
+                "selector"
+            ],
+            "properties": {
+                "selector": {
+                    "type": "string",
+                    "description": "Selector for the action button/element"
+                },
+                "selectorType": {
+                    "type": "string",
+                    "enum": [
+                        "css",
+                        "xpath",
+                        "id",
+                        "name",
+                        "className"
+                    ],
+                    "default": "css"
+                },
+                "waitAfter": {
+                    "type": "integer",
+                    "default": 2000,
+                    "description": "Time to wait after action in milliseconds"
+                },
+                "confirmDialog": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether action triggers a confirmation dialog"
+                },
+                "successIndicator": {
+                    "type": "string",
+                    "description": "Selector for element that indicates successful action"
+                },
+                "fallbackSelectors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

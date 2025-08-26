@@ -1,0 +1,144 @@
+{
+    "name": "WordPress Generic",
+    "description": "Generic WordPress site configuration",
+    "baseUrl": "https://your-wordpress-site.com",
+    "authentication": {
+        "type": "form",
+        "loginUrl": "https://your-wordpress-site.com/wp-admin",
+        "selectors": {
+            "username": "#user_login",
+            "password": "#user_pass",
+            "submitButton": "#wp-submit"
+        },
+        "credentials": {
+            "usernameEnv": "WP_USERNAME",
+            "passwordEnv": "WP_PASSWORD"
+        }
+    },
+    "navigation": {
+        "newArticleUrl": "https://your-wordpress-site.com/wp-admin/post-new.php",
+        "fallbackSelectors": [
+            {
+                "type": "css",
+                "selector": "a[href*='post-new.php']",
+                "description": "Add New Post link"
+            },
+            {
+                "type": "xpath",
+                "selector": "//a[contains(text(), 'Add New')]",
+                "description": "Add New button"
+            }
+        ],
+        "waitForElement": "#title, .editor-post-title__input"
+    },
+    "formFields": {
+        "title": {
+            "selector": "#title",
+            "selectorType": "css",
+            "fieldType": "text",
+            "required": true,
+            "fallbackSelectors": [
+                ".editor-post-title__input",
+                "input[name='post_title']"
+            ],
+            "clearBefore": true
+        },
+        "content": {
+            "selector": "#content",
+            "selectorType": "css",
+            "fieldType": "textarea",
+            "required": true,
+            "fallbackSelectors": [
+                ".editor-rich-text__editable",
+                "#wp-content-editor-container textarea",
+                ".wp-editor-area"
+            ],
+            "clearBefore": true
+        },
+        "excerpt": {
+            "selector": "#excerpt",
+            "selectorType": "css",
+            "fieldType": "textarea",
+            "fallbackSelectors": [
+                "textarea[name='excerpt']"
+            ],
+            "clearBefore": true
+        },
+        "category": {
+            "selector": "#categorychecklist input[type='checkbox']",
+            "selectorType": "css",
+            "fieldType": "checkbox",
+            "fallbackSelectors": [
+                ".categorychecklist input"
+            ]
+        },
+        "tags": {
+            "selector": "#new-tag-post_tag",
+            "selectorType": "css",
+            "fieldType": "text",
+            "fallbackSelectors": [
+                "input[name='newtag[post_tag]']"
+            ],
+            "clearBefore": true
+        },
+        "status": {
+            "selector": "#post_status",
+            "selectorType": "css",
+            "fieldType": "select",
+            "valueMapping": {
+                "drafts": "draft",
+                "pending": "pending",
+                "public": "publish"
+            }
+        }
+    },
+    "actions": {
+        "save": {
+            "selector": "#save-post",
+            "selectorType": "css",
+            "waitAfter": 2000,
+            "fallbackSelectors": [
+                "input[name='save']",
+                ".editor-post-save-draft"
+            ],
+            "successIndicator": ".updated, .notice-success"
+        },
+        "draft": {
+            "selector": "#save-post",
+            "selectorType": "css",
+            "waitAfter": 2000,
+            "fallbackSelectors": [
+                ".editor-post-save-draft"
+            ]
+        },
+        "publish": {
+            "selector": "#publish",
+            "selectorType": "css",
+            "waitAfter": 3000,
+            "fallbackSelectors": [
+                "input[name='publish']",
+                ".editor-post-publish-button"
+            ],
+            "successIndicator": ".updated, .notice-success"
+        },
+        "preview": {
+            "selector": "#post-preview",
+            "selectorType": "css",
+            "waitAfter": 1000,
+            "fallbackSelectors": [
+                ".editor-post-preview"
+            ]
+        }
+    },
+    "settings": {
+        "waitTimeout": 10000,
+        "retryAttempts": 3,
+        "delayBetweenActions": 1000,
+        "headless": true,
+        "screenshotOnError": true
+    },
+    "customScripts": {
+        "afterLogin": "document.querySelector('.welcome-panel-close')?.click();",
+        "beforeSubmit": "window.scrollTo(0, 0);"
+    }
+}

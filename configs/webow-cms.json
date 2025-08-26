@@ -1,0 +1,130 @@
+{
+    "name": "Webow CMS",
+    "description": "Original website configuration based on existing index.js",
+    "baseUrl": "https://your-webow-site.com",
+    "authentication": {
+        "type": "basic",
+        "credentials": {
+            "usernameEnv": "WEBOW_USERNAME",
+            "passwordEnv": "WEBOW_PASSWORD"
+        }
+    },
+    "navigation": {
+        "newArticleUrl": "https://your-webow-site.com/admin/articles/new",
+        "fallbackSelectors": [
+            {
+                "type": "xpath",
+                "selector": "//a[contains(text(), '新規作成')]",
+                "description": "New article creation link"
+            },
+            {
+                "type": "xpath",
+                "selector": "//a[contains(@href, '/articles/new')]",
+                "description": "Direct new article link"
+            },
+            {
+                "type": "xpath",
+                "selector": "//button[contains(text(), '記事作成')]",
+                "description": "Article creation button"
+            }
+        ],
+        "waitForElement": "input[name='title'], #title"
+    },
+    "formFields": {
+        "title": {
+            "selector": "input[name='title']",
+            "selectorType": "css",
+            "fieldType": "text",
+            "required": true,
+            "fallbackSelectors": [
+                "#title",
+                "input[id='title']"
+            ],
+            "clearBefore": true
+        },
+        "content": {
+            "selector": "textarea[name='body']",
+            "selectorType": "css",
+            "fieldType": "textarea",
+            "required": true,
+            "fallbackSelectors": [
+                "#body",
+                "textarea[id='body']",
+                ".editor textarea"
+            ],
+            "clearBefore": true
+        },
+        "startDate": {
+            "selector": "input[name='open_start_date']",
+            "selectorType": "css",
+            "fieldType": "date",
+            "dateFormat": "YYYY-MM-DD",
+            "fallbackSelectors": [
+                "#open_start_date"
+            ],
+            "clearBefore": true
+        },
+        "endDate": {
+            "selector": "input[name='open_end_date']",
+            "selectorType": "css",
+            "fieldType": "date",
+            "dateFormat": "YYYY-MM-DD",
+            "fallbackSelectors": [
+                "#open_end_date"
+            ],
+            "clearBefore": true
+        },
+        "status": {
+            "selector": "select[name='status']",
+            "selectorType": "css",
+            "fieldType": "select",
+            "valueMapping": {
+                "drafts": "draft",
+                "pending": "pending",
+                "public": "published"
+            },
+            "fallbackSelectors": [
+                "#status"
+            ]
+        }
+    },
+    "actions": {
+        "save": {
+            "selector": "button[type='submit']",
+            "selectorType": "css",
+            "waitAfter": 3000,
+            "fallbackSelectors": [
+                "input[type='submit']",
+                "button[name='save']",
+                ".btn-save"
+            ],
+            "successIndicator": ".alert-success, .success-message"
+        },
+        "draft": {
+            "selector": "button[name='save_draft']",
+            "selectorType": "css",
+            "waitAfter": 2000,
+            "fallbackSelectors": [
+                "input[value='下書き保存']",
+                ".btn-draft"
+            ]
+        },
+        "publish": {
+            "selector": "button[name='publish']",
+            "selectorType": "css",
+            "waitAfter": 3000,
+            "confirmDialog": true,
+            "fallbackSelectors": [
+                "input[value='公開']",
+                ".btn-publish"
+            ]
+        }
+    },
+    "settings": {
+        "waitTimeout": 15000,
+        "retryAttempts": 3,
+        "delayBetweenActions": 1500,
+        "headless": false,
+        "screenshotOnError": true
+    }
+}

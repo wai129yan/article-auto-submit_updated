@@ -1,0 +1,59 @@
+{
+    "name": "Your Website Name",
+    "baseUrl": "https://your-website.com",
+    "authentication": {
+        "type": "form",
+        "loginUrl": "/admin/login",
+        "selectors": {
+            "username": "#username",
+            "password": "#password",
+            "submitButton": "#login-button"
+        },
+        "credentials": {
+            "username": "${WEBSITE_USERNAME}",
+            "password": "${WEBSITE_PASSWORD}"
+        }
+    },
+    "navigation": {
+        "newArticleUrl": "/admin/articles/new",
+        "fallbackSelectors": {
+            "newArticleButton": "a[href*='new']"
+        },
+        "waitForElement": "#article-form"
+    },
+    "formFields": {
+        "title": {
+            "selector": "#title",
+            "type": "text",
+            "required": true
+        },
+        "content": {
+            "selector": "#content",
+            "type": "textarea",
+            "required": true
+        },
+        "status": {
+            "selector": "#status",
+            "type": "select",
+            "options": {
+                "draft": "Draft",
+                "publish": "Published",
+                "pending": "Pending Review"
+            }
+        }
+    },
+    "actions": {
+        "save": {
+            "selector": "#save-button",
+            "waitForSuccess": ".success-message"
+        }
+    },
+    "settings": {
+        "pageLoadTimeout": 30000,
+        "elementTimeout": 10000,
+        "retryAttempts": 3,
+        "delayBetweenActions": 1000,
+        "headless": true,
+        "takeScreenshots": true
+    }
+}

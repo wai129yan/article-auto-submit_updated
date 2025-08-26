@@ -1,0 +1,62 @@
+{
+    "websites": [
+        {
+            "name": "Webow CMS",
+            "configPath": "configs/webow-cms.json",
+            "enabled": true,
+            "articles": [
+                {
+                    "title": "Lee Gleichner",
+                    "content": "flllpwuwmohtcynxoezhrinirnhlvqrbvcezblkdqabtgocvybguadabwlxczrneyflkdqmjikjswjeqrqlkskcjbqwfjktifwsanfcunfpbpjiomjxggmvotlgsdtqpzvquuuaoweacebxdzbansjnqzgycradipnjkeobqpxlqvvcjykasihjajcfuymigibsravtaexiqsuiylmqrktgjhdjoegjhgowcxdubvdzbobvmwgmqskvefvibizl",
+                    "publishDate": "2023-08-05 10:00:00",
+                    "expiryDate": "2023-12-15 16:30:00",
+                    "status": "draft",
+                    "category": "General",
+                    "tags": [
+                        "article",
+                        "content"
+                    ]
+                },
+                {
+                    "title": "Genesis Welch",
+                    "content": "ftvsjkbkggufhjzrvgbldkqzoymoqftbglufukbwntufymabccsehgdgghyxqfgbsgpriufpmqwsovmjrqlhnmyyswycpldpeqwsztczoekmisvpqhufvxgvqwhnbcujkolggdzmqmgiuwwzwzwqiesjljmxripvphtudzbgmuxpoghbhjjdnyygzzmdwexxzcxjdvlqyebzvoafptrvdkozrviyktqqrcmkvomhszqsfbjsggrfpkulumoungh",
+                    "publishDate": "2024-01-17 09:15:00",
+                    "expiryDate": "2024-05-02 13:45:00",
+                    "status": "pending",
+                    "category": "News",
+                    "tags": [
+                        "update",
+                        "news"
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "WordPress Site",
+            "configPath": "configs/wordpress-generic.json",
+            "enabled": false,
+            "articles": [
+                {
+                    "title": "Sample WordPress Article",
+                    "content": "This is a sample article for WordPress.",
+                    "publishDate": "2024-01-20 10:00:00",
+                    "status": "publish",
+                    "category": "Technology",
+                    "tags": [
+                        "wordpress",
+                        "cms"
+                    ]
+                }
+            ]
+        }
+    ],
+    "globalSettings": {
+        "maxConcurrentSites": 2,
+        "delayBetweenSites": 5000,
+        "maxRetries": 3,
+        "screenshotDir": "screenshots",
+        "reportDir": "reports",
+        "logLevel": "info",
+        "generateReports": true
+    }
+}
