@@ -1,29 +1,17 @@
 {
     "name": "Webow CMS",
     "description": "Your Webow CMS website configuration",
-    "baseUrl": "https://dev-saas-cms2.webow.jp",
+    "baseUrl": "#testURL",
     "authentication": {
         "type": "basic",
         "credentials": {
             "usernameEnv": "WEBOW_USERNAME",
-            "passwordEnv": "WEBOW_PASSWORD"
+            "passwordEnv": "BASIC_AUTH_PASSWORD"
         }
     },
     "navigation": {
-        "newArticleUrl": "https://dev-saas-cms2.webow.jp/admin/?controller=article&action=add",
-        "fallbackSelectors": [
-            {
-                "type": "xpath",
-                "selector": "//a[contains(text(), '新規作成')]",
-                "description": "New article creation link"
-            },
-            {
-                "type": "xpath",
-                "selector": "//a[contains(@href, '/articles/new')]",
-                "description": "Direct new article link"
-            }
-        ],
-        "waitForElement": "input[name='title'], #title"
+        "newArticleUrl": "#testURL",
+        "waitForElement": "form, input[name='title'], #title"
     },
     "formFields": {
         "title": {
@@ -31,23 +19,24 @@
             "selectorType": "css",
             "fieldType": "text",
             "required": true,
+            "clearBefore": true,
             "fallbackSelectors": [
                 "#title",
-                "input[id='title']"
-            ],
-            "clearBefore": true
+                "input[id='title']",
+                "textarea[name='title']"
+            ]
         },
-        "content": {
+        "text": {
             "selector": "textarea[name='body']",
             "selectorType": "css",
             "fieldType": "textarea",
             "required": true,
+            "clearBefore": true,
             "fallbackSelectors": [
                 "#body",
                 "textarea[id='body']",
                 ".editor textarea"
-            ],
-            "clearBefore": true
+            ]
         }
     },
     "actions": {

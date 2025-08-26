@@ -34,12 +34,16 @@ class DynamicArticleSubmitter {
 
         if (this.options.headless || this.config.settings?.headless) {
             options.addArguments('--headless');
+            options.addArguments('--disable-gpu');
+            options.addArguments('--no-sandbox');
+            options.addArguments('--disable-dev-shm-usage');
         }
 
-        options.addArguments('--no-sandbox');
-        options.addArguments('--disable-dev-shm-usage');
-        options.addArguments('--disable-gpu');
+        // Better screenshot quality
         options.addArguments('--window-size=1920,1080');
+        options.addArguments('--force-device-scale-factor=1');
+        options.addArguments('--disable-web-security');
+        options.addArguments('--disable-features=VizDisplayCompositor');
 
         this.driver = await new Builder()
             .forBrowser('chrome')
@@ -384,12 +388,23 @@ class DynamicArticleSubmitter {
         }
     }
 
-    async takeScreenshot(filename) {
+    async takeScreenshot(filename, options = {}) {
         try {
+            // Wait for page to be ready
+            await this.driver.wait(async () => {
+                const readyState = await this.driver.executeScript('return document.readyState');
+                return readyState === 'complete';
+            }, 5000);
+
+            // Additional wait for dynamic content
+            await this.sleep(options.delay || 2000);
+
+            // Scroll to top to ensure content is visible
+            await this.driver.executeScript('window.scrollTo(0, 0);');
+
             const screenshot = await this.driver.takeScreenshot();
             const screenshotPath = path.join(this.options.screenshotDir, `${filename}.png`);
 
-            // Ensure screenshot directory exists
             await fs.mkdir(this.options.screenshotDir, { recursive: true });
             await fs.writeFile(screenshotPath, screenshot, 'base64');
 
@@ -397,6 +412,7 @@ class DynamicArticleSubmitter {
             return screenshotPath;
         } catch (error) {
             this.log('error', `Failed to take screenshot: ${error.message}`);
+            return null;
         }
     }
 
