@@ -1,13 +1,15 @@
 const fs = require('fs').promises;
 const path = require('path');
 const Ajv = require('ajv');
+const addFormats = require('ajv-formats');
 
 describe('Configuration Validation', () => {
     let ajv;
     let schema;
 
     beforeAll(async () => {
-        ajv = new Ajv();
+        ajv = new Ajv({ allErrors: true });
+        addFormats(ajv); // Add format support including 'uri'
         const schemaPath = path.join(__dirname, '..', 'schemas', 'website-config-schema.json');
         const schemaContent = await fs.readFile(schemaPath, 'utf8');
         schema = JSON.parse(schemaContent);
